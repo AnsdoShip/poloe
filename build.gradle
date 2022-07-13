@@ -1,0 +1,42 @@
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.0.4'
+    }
+}
+
+allprojects {
+
+    ext {
+        appName = 'Poloe'
+        appGroupName = 'com.ansdoship'
+        appVendorName = 'AnsdoShip'
+        appPackageName = 'com.ansdoship.poloe'
+
+        appArchiveName = 'Poloe'
+
+        appDesktopMainClassName = 'com.ansdoship.poloe.j2se.J2SELauncher'
+
+        appVersionCode = 1
+        appVersionName = '0.0.1'
+
+        appSourceCompatibility = JavaVersion.VERSION_1_8
+        appTargetCompatibility = JavaVersion.VERSION_1_8
+
+        appAndroidCompileSDK = 31
+        appAndroidMinSDK = 16
+        appAndroidTargetSDK = 31
+    }
+    group = appGroupName
+    version = appVersionName
+
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+}
+

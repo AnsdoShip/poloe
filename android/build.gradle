@@ -1,0 +1,48 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    compileSdk appAndroidCompileSDK
+
+    defaultConfig {
+        applicationId appPackageName
+        minSdk appAndroidMinSDK
+        targetSdk appAndroidTargetSDK
+        versionCode appVersionCode
+        versionName appVersionName
+
+        resConfigs "en_US", "zh_CN", "zh_TW"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility appSourceCompatibility
+        targetCompatibility appTargetCompatibility
+    }
+
+    applicationVariants.all { variant ->
+        if (variant.buildType.name == 'release') {
+            variant.outputs.all {
+                outputFileName = "$appArchiveName-v$appVersionName-Android.apk"
+            }
+        }
+    }
+}
+
+dependencies {
+    implementation project (':core')
+
+    implementation 'androidx.appcompat:appcompat:1.4.2'
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}

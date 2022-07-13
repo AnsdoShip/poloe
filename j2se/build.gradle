@@ -1,0 +1,48 @@
+plugins {
+    id 'java'
+}
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+sourceCompatibility = appSourceCompatibility
+targetCompatibility = appTargetCompatibility
+
+ext.appMainClass = appDesktopMainClassName
+
+task run(dependsOn: classes, type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    ignoreExitValue = true
+
+    main(appMainClass)
+    systemProperty 'Specification-Title', appName
+    systemProperty 'Specification-Vendor', appVendorName
+    systemProperty 'Specification-Version', appVersionName + "-INDEV"
+    systemProperty 'Implementation-Version', appVersionCode
+}
+
+task fatJar(type: Jar) {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+
+    manifest {
+        attributes 'Main-Class': appMainClass
+        attributes 'Specification-Title': appName
+        attributes 'Specification-Vendor': appVendorName
+        attributes 'Specification-Version': appVersionName
+        attributes 'Implementation-Version': appVersionCode
+    }
+    archiveName("$appArchiveName-v$appVersionName-Desktop.jar")
+}
+
+dependencies {
+    implementation project(':core')
+    implementation 'org.graalvm.js:js:22.1.0.1'
+    implementation 'org.graalvm.js:js-scriptengine:22.1.0.1'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+}
+
+test {
+    useJUnitPlatform()
+}

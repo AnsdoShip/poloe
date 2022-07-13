@@ -1,0 +1,6 @@
+rootProject.name = 'poloe'
+include 'j2se'
+
+include ':android'
+include 'core'
+
